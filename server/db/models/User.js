@@ -14,8 +14,16 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
+  },
+  phoneNumber: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastListingAt: {
+    type: Sequelize.DATE
   }
 })
+
 
 module.exports = User
 

@@ -1,22 +1,51 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {connect} from 'react-redux';
 import { Form, Field } from 'react-final-form';
-import { subscribeToFilter } from '../store/filters';
+import { subscribeToFilter, getListings } from '../store/listings';
 
 /**
  * COMPONENT
  */
-export const Home = ({username, onSubscribeToFilter}) => {
-  const onSubmit = (values) => {
-    console.log(values)
-    return onSubscribeToFilter(values)
+export const Home = ({username, onSubscribeToFilter, onGetListings, listings }) => {
+  const [filters, setFilters] = useState({});
+  const [showSubscribeButton, setShowSubscribeButton] = useState(false)
+
+  const onSubmit = ({ maxPrice, minPrice }) => {
+    console.log('values',maxPrice, minPrice)
+    const payload = {}
+    if (maxPrice) payload.maxPrice = maxPrice;
+    if (minPrice) payload.minPrice = minPrice;
+    setFilters(payload);
+    setShowSubscribeButton(false)
+
+    return onGetListings(payload)
     .then(res => {
       console.log('res', res)
+      setShowSubscribeButton(true)
     })
     .catch((err) => {
       console.log('err', err)
     })
   }
+
+  const onSubscribe = () => {
+    return onSubscribeToFilter(filters)
+      .then(res => {
+        console.log('onSubscribe res', res)
+        alert('Subscription saved!')
+      })
+      .catch((err) => {
+        console.log('onSubscribe err', err)
+      })
+  }
+
+  useEffect(() => {
+    onGetListings({})
+    .then(res => {
+      console.log('res', res)
+      setShowSubscribeButton(true);
+    })
+  }, [])
 
   return (
     <div>
@@ -24,11 +53,15 @@ export const Home = ({username, onSubscribeToFilter}) => {
       <Form
         onSubmit={onSubmit}
         //validate={validate}
-        render={({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>            
+        render={({ handleSubmit  }) => (
+          <form onSubmit={handleSubmit}>
             <div>
-              <label>Phone Number</label>
-              <Field name="phone_number" component="input" placeholder="Phone Number" />
+              <label>Min Price</label>
+              <Field name="minPrice" component="input" placeholder="Min Price" />
+            </div>    
+            <div>
+              <label>Max Price</label>
+              <Field name="maxPrice" component="input" placeholder="Max Price" />
             </div>
         
            {/* <h2>Render Function</h2>
@@ -47,6 +80,13 @@ export const Home = ({username, onSubscribeToFilter}) => {
           </form>
         )}
       />
+      {listings.map((listing) => {
+        return <div key={listing.id}>
+          <div>{listing.name}</div>
+          <div>{listing.price}</div>
+        </div>
+      })}
+      {showSubscribeButton && <button onClick={onSubscribe} type='button'>Subscribe</button>}
     </div>
   )
 }
@@ -56,12 +96,16 @@ export const Home = ({username, onSubscribeToFilter}) => {
  */
 const mapState = state => {
   return {
-    username: state.auth.username
+    username: state.auth.username,
+    listings: state.listing.listings
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onGetListings: (payload) => {
+      return dispatch(getListings(payload))
+    },
     onSubscribeToFilter: (payload) => {
       return dispatch(subscribeToFilter(payload))
     }

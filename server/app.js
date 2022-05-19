@@ -22,6 +22,8 @@ app.use('/api', require('./api'))
 2. Filtering
 3. Saving filters
 4. Sending notifications when there is new data
+    - setting up adding new data
+    - Pulling subscriptions and notifying user
 */
 
 app.post('/twilio', (req, res) => {
