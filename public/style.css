@@ -19,3 +19,22 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.postings {
+  background-color: #f6f6ef;
+  width: 85%;
+  margin: 12px auto;
+  padding-bottom: 25px;
+  font-family: sans-serif;
+}
+
+.navTitle {
+  background-color: #6b32e1;
+  color: #fff;
+  padding: 3px;
+  height: 26px;
+}
+
+.news-item {
+  padding: 0 15px;
+}

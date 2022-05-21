@@ -1,22 +1,32 @@
 'use strict'
-const {db, models: {User,Listing} } = require('../server/db')
+const {db, models: {User,Listing,Subscription} } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
+
 async function seed() {
   await db.sync({ force: true }) // clears db and matches models to tables
   console.log('db synced!')
 
   // Creating Users
-  const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
-  ])
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  const cody = await User.create({ username: 'cody', password: '123', phoneNumber:'14162767630', lastListingAt: "2022-05-17 16:33:00" })
+  const murphy = await User.create({ username: 'murphy', password: '123', phoneNumber:'14162767630', lastListingAt: "2022-05-16 16:33:00" })
+  const moe = await User.create({ username: 'moe', password: '123', phoneNumber:'14162767630',lastListingAt: "2022-05-15 16:33:00" })
+  const curly = await User.create({ username: 'curly', password: '123', phoneNumber:'14162767630',lastListingAt: "2022-05-14 16:33:00" })
+  const larry = await User.create({ username: 'larry', password: '123', phoneNumber:'14162767630', lastListingAt: "2022-05-14 16:33:00" })
 
+
+//Creating Subs
+// const subscriptions = await Promise.all([
+//   Subscription.create({minPrice: 1000, maxPrice: 3000, userId: cody.id}),
+//   Subscription.create({minPrice: 1000, maxPrice: 10000, userId: murphy.id}),
+//   Subscription.create({minPrice: 2000, maxPrice: 4000, userId: moe.id}),
+//   Subscription.create({minPrice: 2999, maxPrice: 4300, userId: curly.id}),
+//   Subscription.create({minPrice: 1450, maxPrice: 2999, userId: larry.id}),
+// ])
+//Creating Listings
   const listings = await Promise.all([
     Listing.create({ 
     link: 'https://sfbay.craigslist.org/sfc/apa/d/san-francisco-beautiful-brand-new-top/7485024037.html',
@@ -119,207 +129,54 @@ async function seed() {
 
 
     ])
+
     console.log(`seeded ${listings.length} listings`)
     console.log(`seeded listingssuccessfully`)
   return {
     users: {
-      cody: users[0],
-      murphy: users[1]
+      cody,
+      murphy,
+      moe,
+      curly,
+      larry
     }
   }
 }
-//Creating Listings
 
-  // Listing.create({ 
-  // link: 'https://sfbay.craigslist.org/sfc/apa/d/san-francisco-living-room-co-working/7484152558.html',
-  // created: 2022-05-15T16:16:000Z, 
-  // lat:, 
-  // lon:, 
-  // name:'Living Room / Co-Working Lounge, Grill and Kitchen, Picnic Lawn', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
-  // Listing.create({ 
-  // link: ,
-  // created: , 
-  // lat:, 
-  // lon:, 
-  // name:'', 
-  // price, 
-  // location, 
-  // cl_id: , 
-  // area: 'sfc',}),
+Listing.generateRandom = async function() {
+  let randomVal = Math.ceil(Math.random()*5000)
+  const item1 = await this.create({ 
+    name: `Listing ${randomVal}`,
+    link: `https://sfbay.craigslist.org/sfc/apa/d/san-francisco-luxury-location/${randomVal}.html`,
+    created: Date.now(),
+    lat:37.792121892866284, 
+    lon: -122.42421772883498, 
+    price: randomVal, 
+    location: 'lower pac hts', 
+    cl_id: randomVal,
+    area: 'sfc' 
+    }) 
+
+    randomVal = Math.ceil(Math.random()*5000)
+    const item2 = await this.create({ 
+      name: `Listing ${randomVal}`,
+      link: `https://sfbay.craigslist.org/sfc/apa/d/san-francisco-luxury-location/${randomVal}.html`,
+      created: Date.now(),
+      lat:37.792121892866284, 
+      lon: -122.42421772883498, 
+      price: randomVal, 
+      location: 'lower pac hts', 
+      cl_id: randomVal,
+      area: 'sfc' 
+      }) 
+
+    const items = [item1.price, item2.price].sort();
+
+    return {
+      minPrice: items[0],
+      maxPrice: items[items.length - 1]
+    }
+}
 
 
 /*
@@ -340,7 +197,6 @@ async function runSeed() {
     console.log('db connection closed')
   }
 }
-
 /*
   Execute the `seed` function, IF we ran this module directly (`node seed`).
   `Async` functions always return a promise, so we can use `catch` to handle

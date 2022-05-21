@@ -48,8 +48,8 @@ export const Home = ({username, onSubscribeToFilter, onGetListings, listings }) 
   }, [])
 
   return (
-    <div>
-      <h3>Welcome, {username}</h3>
+    <div className='postings'>
+      <h3 className='navTitle'>Notify!</h3>
       <Form
         onSubmit={onSubmit}
         //validate={validate}
@@ -81,11 +81,10 @@ export const Home = ({username, onSubscribeToFilter, onGetListings, listings }) 
         )}
       />
       {listings.map((listing) => {
-        return <div key={listing.id}>
-          <div>{listing.name}</div>
-          <div>{listing.price}</div>
+        return <div className='news-item' key={listing.id}>
+          <div>{`${listing.id}. ${listing.name} $ ${listing.price}`}</div>
         </div>
-      })}
+      }).sort()}
       {showSubscribeButton && <button onClick={onSubscribe} type='button'>Subscribe</button>}
     </div>
   )

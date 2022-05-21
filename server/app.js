@@ -5,6 +5,8 @@ const app = express()
 module.exports = app
 
 const { sendMessage } = require('./services/twilio')
+const { sendNewListingAlert } = require('./services/NewListingAlert')
+const Listing = require('./db/models/Listing')
 
 // logging middleware
 app.use(morgan('dev'))
@@ -25,12 +27,6 @@ app.use('/api', require('./api'))
     - setting up adding new data
     - Pulling subscriptions and notifying user
 */
-
-app.post('/twilio', (req, res) => {
-  console.log(req.body)
-  sendMessage(req.body.phone_number, 'New Notification Alert')
-  res.json({})
-})
 
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', 'public/index.html')));
 
@@ -59,3 +55,10 @@ app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(err.status || 500).send(err.message || 'Internal server error.')
 })
+
+setInterval(async () => {
+  console.log('creating random listing');
+  const prices = await Listing.generateRandom();
+  console.log('Checking subscriptions>>')
+  sendNewListingAlert(prices.minPrice, prices.maxPrice)
+}, 5000)
