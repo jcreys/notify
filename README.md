@@ -15,13 +15,6 @@ Sequelize
 Express
 Twilio API
 
-## Set Up
+## Demo
 
-Clone the repo to your local environment.
-cd client & npm i
-cd ../server & npm i
-
-## Available Scripts
-
-In the server folder, you can run:
 
